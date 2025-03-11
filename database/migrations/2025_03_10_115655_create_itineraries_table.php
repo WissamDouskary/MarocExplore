@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('categorie');
             $table->string('duration');
             $table->string('image');
-            $table->string('destinations-list');
+            $table->string('destinationslist');
             $table->timestamps();
         });
     }
