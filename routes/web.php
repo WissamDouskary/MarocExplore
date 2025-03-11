@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Providers\RouteServiceProvider;
+use App\Http\Controllers\itineraryController;
 
 /*
 |--------------------------------------------------------------------------
