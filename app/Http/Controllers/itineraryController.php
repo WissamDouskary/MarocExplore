@@ -56,11 +56,7 @@ class itineraryController extends Controller
             ], 401);
         }
 
-        $validated = $request->validate([
-            'title' => 'max:20|min:5',
-        ]);
-
-        $itinerary->update($validated);
+        $itinerary->update($request->all());
         return $itinerary;
     }
 
