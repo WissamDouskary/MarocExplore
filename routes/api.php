@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\itineraryController;
+use App\Http\Controllers\DestinationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,10 @@ Route::group(['middleware' => ['auth:sanctum']] , function(){
     Route::post('/itineraries', [itineraryController::class, 'store']);
     Route::put('/itineraries/{id}', [itineraryController::class, 'update']);
     Route::delete('/itineraries/{id}', [itineraryController::class, 'delete']);
+
+    //distinations
+    Route::post('/itineraries/{id}/destinations', [DestinationController::class, 'store']);
+    Route::delete('/destinations/{id}', [DestinationController::class, 'destroy']);
 
     //user
     Route::post('/logout', [AuthController::class, 'logout']);
