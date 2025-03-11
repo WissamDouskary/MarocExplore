@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Itinerary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class itineraryController extends Controller
 {
     public function index()
     {
-        return Itinerary::with('destinations')->get();
+        return DB::table('itineraries')
+                ->leftJoin('destinations', 'destinations.itinerary_id', '=', 'itinerary_id')
+                ->select('destinations.*', 'itineraries.*')
+                ->get();
     }
 
     public function store(Request $request)

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\itineraryController;
 use App\Http\Controllers\DestinationController;
 
@@ -45,6 +46,9 @@ Route::group(['middleware' => ['auth:sanctum']] , function(){
     //distinations
     Route::post('/itineraries/{id}/destinations', [DestinationController::class, 'store']);
     Route::delete('/destinations/{id}', [DestinationController::class, 'destroy']);
+
+    //favorite
+    Route::post('/itineraries/{id}/favorite', [FavoriteController::class, 'store']);
 
     //user
     Route::post('/logout', [AuthController::class, 'logout']);
