@@ -18,7 +18,7 @@ class FavoriteController extends Controller
             ]);
         }
 
-        $is_exists = DB::table('favorites')->where('itineraries_id', $id)->exists();
+        $is_exists = DB::table('favorites')->where('itineraries_id', $id)->where('user_id', Auth::id())->exists();
 
         if($is_exists){
             return response([
