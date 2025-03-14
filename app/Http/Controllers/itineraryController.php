@@ -11,10 +11,17 @@ class itineraryController extends Controller
 {
     public function index()
     {
-        return DB::table('itineraries')
+        $itineraries =  DB::table('itineraries')
                 ->leftJoin('destinations', 'destinations.itinerary_id', '=', 'itinerary_id')
                 ->select('destinations.*', 'itineraries.*')
                 ->get();
+        if(count($itineraries) > 0){
+            return $itineraries;
+        }else{
+            return response([
+                'message' => 'No itineraries found!'
+            ], 404);
+        }
     }
 
     public function store(Request $request)
