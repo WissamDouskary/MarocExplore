@@ -49,12 +49,17 @@ class ItineraryTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->putJson('/api/itineraries/1', [
+        $response = $this->putJson('/api/itineraries/11', [
             'title' => 'update title 2',
             'categorie' => 'update categorie 2',
         ]);
 
         $response->assertStatus(201);
+
+        $this->assertDatabaseHas('itineraries', [
+            'title' => 'update title 2',
+            'categorie' => 'update categorie 2',
+        ]);
     }
 
     public function test_if_delete_itinerary_is_correct(){
