@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //user
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('itineraries/filter', [ItineraryController::class, 'filter']);
 
 //itineraries
 Route::get('/itineraries', [itineraryController::class, 'index']);

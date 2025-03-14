@@ -61,6 +61,26 @@ class itineraryController extends Controller
         return response()->json($itinerary);
     }
 
+    public function filter(Request $request){
+        $query = Itinerary::query();
+
+        if($request->has('categorie')){
+            $query->where('categorie', $request->categorie);
+        }
+
+        $is_exist = Itinerary::where('categorie', $request->categorie);
+
+        if(!$is_exist){
+            return response([
+                'message' => 'there is no itinerary with this categorie!'
+            ]);
+        }
+
+        $itineraries = $query->get();
+
+        return response()->json($itineraries);
+    }
+
     public function update(Request $request, $id)
     {
         $itinerary = Itinerary::find($id);
