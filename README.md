@@ -1,66 +1,437 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This document provides comprehensive information about the endpoints available in our API. The API is built using Laravel and provides functionality for user authentication, itinerary management, destination management, and favorites.
 
-## About Laravel
+## Base URL
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+All URLs referenced in the documentation have the following base:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+https://your-api-domain.com/api
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Authentication
 
-## Learning Laravel
+The API uses Laravel Sanctum for authentication. To access protected routes, include the bearer token in the Authorization header:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```
+Authorization: Bearer YOUR_API_TOKEN
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Endpoints
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### User Authentication
 
-## Laravel Sponsors
+#### Register
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+POST /register
+```
 
-### Premium Partners
+Create a new user account.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+**Request Body:**
+```json
+{
+  "name": "string",
+  "email": "string",
+  "password": "string",
+  "password_confirmation": "string"
+}
+```
 
-## Contributing
+**Response:**
+```json
+{
+  "user": {
+    "id": "integer",
+    "name": "string",
+    "email": "string",
+    "created_at": "datetime",
+    "updated_at": "datetime"
+  },
+  "token": "string"
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Login
 
-## Code of Conduct
+```
+POST /login
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Authenticate a user and get a token.
 
-## Security Vulnerabilities
+**Request Body:**
+```json
+{
+  "email": "string",
+  "password": "string"
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Response:**
+```json
+{
+  "user": {
+    "id": "integer",
+    "name": "string",
+    "email": "string",
+    "created_at": "datetime",
+    "updated_at": "datetime"
+  },
+  "token": "string"
+}
+```
 
-## License
+#### Logout
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+POST /logout
+```
+
+Invalidate the current authentication token.
+
+**Authentication required:** Yes
+
+**Response:**
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+#### Get User
+
+```
+GET /user
+```
+
+Get the currently authenticated user.
+
+**Authentication required:** Yes
+
+**Response:**
+```json
+{
+  "id": "integer",
+  "name": "string",
+  "email": "string",
+  "created_at": "datetime",
+  "updated_at": "datetime"
+}
+```
+
+### Itineraries
+
+#### List Itineraries
+
+```
+GET /itineraries
+```
+
+Get a list of all itineraries.
+
+**Authentication required:** No
+
+**Response:**
+```json
+[
+  {
+    "id": "integer",
+    "name": "string",
+    "description": "string",
+    "user_id": "integer",
+    "created_at": "datetime",
+    "updated_at": "datetime",
+    "destinations": [
+      {
+        "id": "integer",
+        "name": "string",
+        "description": "string",
+        "location": "string",
+        "itinerary_id": "integer"
+      }
+    ]
+  }
+]
+```
+
+#### Get Itinerary
+
+```
+GET /itineraries/{id}
+```
+
+Get a specific itinerary by ID.
+
+**Authentication required:** No
+
+**Parameters:**
+- `id` (path): The ID of the itinerary
+
+**Response:**
+```json
+{
+  "id": "integer",
+  "name": "string",
+  "description": "string",
+  "user_id": "integer",
+  "created_at": "datetime",
+  "updated_at": "datetime",
+  "destinations": [
+    {
+      "id": "integer",
+      "name": "string",
+      "description": "string",
+      "location": "string",
+      "itinerary_id": "integer"
+    }
+  ]
+}
+```
+
+#### Search Itineraries
+
+```
+GET /itineraries/search/{name}
+```
+
+Search for itineraries by name.
+
+**Authentication required:** No
+
+**Parameters:**
+- `name` (path): The search query
+
+**Response:**
+```json
+[
+  {
+    "id": "integer",
+    "name": "string",
+    "description": "string",
+    "user_id": "integer",
+    "created_at": "datetime",
+    "updated_at": "datetime"
+  }
+]
+```
+
+#### Create Itinerary
+
+```
+POST /itineraries
+```
+
+Create a new itinerary.
+
+**Authentication required:** Yes
+
+**Request Body:**
+```json
+{
+  "name": "string",
+  "description": "string"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "integer",
+  "name": "string",
+  "description": "string",
+  "user_id": "integer",
+  "created_at": "datetime",
+  "updated_at": "datetime"
+}
+```
+
+#### Update Itinerary
+
+```
+PUT /itineraries/{id}
+```
+
+Update an existing itinerary.
+
+**Authentication required:** Yes
+
+**Parameters:**
+- `id` (path): The ID of the itinerary to update
+
+**Request Body:**
+```json
+{
+  "name": "string",
+  "description": "string"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "integer",
+  "name": "string",
+  "description": "string",
+  "user_id": "integer",
+  "created_at": "datetime",
+  "updated_at": "datetime"
+}
+```
+
+#### Delete Itinerary
+
+```
+DELETE /itineraries/{id}
+```
+
+Delete an itinerary.
+
+**Authentication required:** Yes
+
+**Parameters:**
+- `id` (path): The ID of the itinerary to delete
+
+**Response:**
+```json
+{
+  "message": "Itinerary deleted successfully"
+}
+```
+
+### Destinations
+
+#### Add Destination
+
+```
+POST /itineraries/{id}/destinations
+```
+
+Add a destination to an itinerary.
+
+**Authentication required:** Yes
+
+**Parameters:**
+- `id` (path): The ID of the itinerary
+
+**Request Body:**
+```json
+{
+  "name": "string",
+  "description": "string",
+  "location": "string"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "integer",
+  "name": "string",
+  "description": "string",
+  "location": "string",
+  "itinerary_id": "integer",
+  "created_at": "datetime",
+  "updated_at": "datetime"
+}
+```
+
+#### Delete Destination
+
+```
+DELETE /destinations/{id}
+```
+
+Delete a destination.
+
+**Authentication required:** Yes
+
+**Parameters:**
+- `id` (path): The ID of the destination to delete
+
+**Response:**
+```json
+{
+  "message": "Destination deleted successfully"
+}
+```
+
+### Favorites
+
+#### Add to Favorites
+
+```
+POST /itineraries/{id}/favorite
+```
+
+Add an itinerary to the user's favorites.
+
+**Authentication required:** Yes
+
+**Parameters:**
+- `id` (path): The ID of the itinerary to favorite
+
+**Response:**
+```json
+{
+  "message": "Itinerary added to favorites",
+  "favorite": {
+    "id": "integer",
+    "user_id": "integer",
+    "itinerary_id": "integer",
+    "created_at": "datetime",
+    "updated_at": "datetime"
+  }
+}
+```
+
+## Error Responses
+
+All endpoints may return the following error responses:
+
+### 401 Unauthorized
+
+```json
+{
+  "message": "Unauthenticated."
+}
+```
+
+### 403 Forbidden
+
+```json
+{
+  "message": "You do not have permission to access this resource."
+}
+```
+
+### 404 Not Found
+
+```json
+{
+  "message": "Resource not found."
+}
+```
+
+### 422 Validation Error
+
+```json
+{
+  "message": "The given data was invalid.",
+  "errors": {
+    "field_name": [
+      "Error message"
+    ]
+  }
+}
+```
+
+### 500 Server Error
+
+```json
+{
+  "message": "Server error."
+}
+```
