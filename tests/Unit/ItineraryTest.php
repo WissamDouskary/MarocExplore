@@ -34,6 +34,13 @@ class ItineraryTest extends TestCase
         ]);
 
         $response->assertStatus(201);
+
+        $this->assertDatabaseHas('itineraries', [
+            'title' => 'test unit',
+            'categorie' => 'imensi',
+            'duration' => 8,
+            'image' => 'test.png',
+        ]);
     }
 
     public function test_check_if_update_itinerary_is_correct(): void
