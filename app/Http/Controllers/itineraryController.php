@@ -38,7 +38,7 @@ class itineraryController extends Controller
 
         return response([
             'message' => 'success'
-        ]);
+        ], 201);
     }
 
     public function show($id)
@@ -85,7 +85,7 @@ class itineraryController extends Controller
         return response()->json([
             'message' => 'Itinerary updated successfully!',
             'itinerary' => $itinerary
-        ]);
+        ], 201);
     }
 
     public function destroy($id)
@@ -108,7 +108,7 @@ class itineraryController extends Controller
 
         return response()->json([
             'message' => 'Itinerary deleted successfully!'
-        ]);
+        ], 201);
     }
 
     public function search($title)

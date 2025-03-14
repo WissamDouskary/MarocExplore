@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth:sanctum']] , function(){
     //itineraries
     Route::post('/itineraries', [itineraryController::class, 'store']);
     Route::put('/itineraries/{id}', [itineraryController::class, 'update']);
-    Route::delete('/itineraries/{id}', [itineraryController::class, 'delete']);
+    Route::delete('/itineraries/{id}', [itineraryController::class, 'destroy']);
 
     //distinations
     Route::post('/itineraries/{id}/destinations', [DestinationController::class, 'store']);
