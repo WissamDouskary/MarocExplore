@@ -36,7 +36,6 @@ Create a new user account.
   "name": "string",
   "email": "string",
   "password": "string",
-  "password_confirmation": "string"
 }
 ```
 
@@ -101,27 +100,6 @@ Invalidate the current authentication token.
 }
 ```
 
-#### Get User
-
-```
-GET /user
-```
-
-Get the currently authenticated user.
-
-**Authentication required:** Yes
-
-**Response:**
-```json
-{
-  "id": "integer",
-  "name": "string",
-  "email": "string",
-  "created_at": "datetime",
-  "updated_at": "datetime"
-}
-```
-
 ### Itineraries
 
 #### List Itineraries
@@ -136,25 +114,22 @@ Get a list of all itineraries.
 
 **Response:**
 ```json
-[
-  {
-    "id": "integer",
-    "name": "string",
-    "description": "string",
-    "user_id": "integer",
-    "created_at": "datetime",
-    "updated_at": "datetime",
+{
+    "title": "string",
+    "categorie": "string",
+    "duration": "string",
+    "image": "string",
     "destinations": [
-      {
-        "id": "integer",
-        "name": "string",
-        "description": "string",
-        "location": "string",
-        "itinerary_id": "integer"
-      }
+        {
+            "name": "string",
+            "lodging": "string",
+            "places_to_visit": [
+                "string",
+                "string"
+            ]
+        },
     ]
-  }
-]
+}
 ```
 
 #### Get Itinerary
@@ -173,21 +148,21 @@ Get a specific itinerary by ID.
 **Response:**
 ```json
 {
-  "id": "integer",
-  "name": "string",
-  "description": "string",
-  "user_id": "integer",
-  "created_at": "datetime",
-  "updated_at": "datetime",
-  "destinations": [
-    {
-      "id": "integer",
-      "name": "string",
-      "description": "string",
-      "location": "string",
-      "itinerary_id": "integer"
-    }
-  ]
+    "id" : "integer",
+    "title": "string",
+    "categorie": "string",
+    "duration": "string",
+    "image": "string",
+    "destinations": [
+        {
+            "name": "string",
+            "lodging": "string",
+            "places_to_visit": [
+                "string",
+                "string"
+            ]
+        },
+    ]
 }
 ```
 
@@ -207,14 +182,22 @@ Search for itineraries by name.
 **Response:**
 ```json
 [
-  {
-    "id": "integer",
-    "name": "string",
-    "description": "string",
-    "user_id": "integer",
-    "created_at": "datetime",
-    "updated_at": "datetime"
-  }
+{
+    "title": "string",
+    "categorie": "string",
+    "duration": "string",
+    "image": "string",
+    "destinations": [
+        {
+            "name": "string",
+            "lodging": "string",
+            "places_to_visit": [
+                "string",
+                "string"
+            ]
+        },
+    ]
+}
 ]
 ```
 
@@ -231,20 +214,30 @@ Create a new itinerary.
 **Request Body:**
 ```json
 {
-  "name": "string",
-  "description": "string"
+    "title": "string",
+    "categorie": "string",
+    "duration": "string",
+    "image": "string",
+    "destinations": [
+        {
+            "name": "string",
+            "lodging": "string",
+            "places_to_visit": [
+                "string",
+                "string"
+            ]
+        },
+    ]
 }
 ```
 
 **Response:**
 ```json
 {
-  "id": "integer",
-  "name": "string",
-  "description": "string",
-  "user_id": "integer",
-  "created_at": "datetime",
-  "updated_at": "datetime"
+    "title": "string",
+    "categorie": "string",
+    "duration": "string",
+    "image": "string",
 }
 ```
 
@@ -272,12 +265,13 @@ Update an existing itinerary.
 **Response:**
 ```json
 {
-  "id": "integer",
-  "name": "string",
-  "description": "string",
-  "user_id": "integer",
-  "created_at": "datetime",
-  "updated_at": "datetime"
+    "id": "integer",
+    "title": "string",
+    "categorie": "string",
+    "duration": "string",
+    "image": "string",
+    "created_at": "datetime",
+    "updated_at": "datetime"
 }
 ```
 
@@ -319,22 +313,33 @@ Add a destination to an itinerary.
 **Request Body:**
 ```json
 {
-  "name": "string",
-  "description": "string",
-  "location": "string"
+    "name": "test",
+    "lodging": "test",
+    "places_to_visit": [
+        "test",
+        "test"
+    ],
+    "itenerary_id" : "integer"
 }
 ```
 
 **Response:**
 ```json
 {
-  "id": "integer",
-  "name": "string",
-  "description": "string",
-  "location": "string",
-  "itinerary_id": "integer",
-  "created_at": "datetime",
-  "updated_at": "datetime"
+    "title": "string",
+    "categorie": "string",
+    "duration": "string",
+    "image": "string",
+    "destinations": [
+        {
+            "name": "string",
+            "lodging": "string",
+            "places_to_visit": [
+                "string",
+                "string"
+            ]
+        },
+    ]
 }
 ```
 
@@ -378,11 +383,22 @@ Add an itinerary to the user's favorites.
 {
   "message": "Itinerary added to favorites",
   "favorite": {
-    "id": "integer",
-    "user_id": "integer",
-    "itinerary_id": "integer",
-    "created_at": "datetime",
-    "updated_at": "datetime"
+    {
+    "title": "string",
+    "categorie": "string",
+    "duration": "string",
+    "image": "string",
+    "destinations": [
+        {
+            "name": "string",
+            "lodging": "string",
+            "places_to_visit": [
+                "string",
+                "string"
+            ]
+        },
+    ]
+}
   }
 }
 ```
