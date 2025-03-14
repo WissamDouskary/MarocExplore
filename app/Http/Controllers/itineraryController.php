@@ -65,18 +65,16 @@ class itineraryController extends Controller
         $query = Itinerary::query();
 
         if($request->has('categorie')){
-            $query->where('categorie', $request->categorie);
-        }
-
-        $is_exist = Itinerary::where('categorie', $request->categorie);
-
-        if(!$is_exist){
-            return response([
-                'message' => 'there is no itinerary with this categorie!'
-            ]);
+            $query->where('categorie', 'ILIKE', $request->categorie);
         }
 
         $itineraries = $query->get();
+
+        if(count($itineraries) == 0){
+            return response()->json([
+                'message' => 'there is no itinerary with this categorie!'
+            ], 401);
+        }
 
         return response()->json($itineraries);
     }
